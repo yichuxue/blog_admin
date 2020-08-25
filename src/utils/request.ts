@@ -28,6 +28,7 @@ const codeMessage = {
  */
 const errorHandler = (error: { response: Response }): Response => {
   const { response } = error;
+  console.log("response: ", error)
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
@@ -52,5 +53,34 @@ const request = extend({
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
 });
+
+// request拦截器, 添加token
+request.interceptors.request.use((url, options) => {
+  let token = localStorage.getItem("token")
+  let headers = {}
+  if (token) {
+    headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'token': token
+    }
+  }
+  return (
+    {
+      url,
+      options: { ...options, headers}
+    }
+  )
+})
+
+// response拦截器, 处理respon
+// request.interceptors.response.use((response, options) => {
+//   console.log(response.body)
+//   let token = response.headers.get('token')
+//   if (token) {
+//     localStorage.setItem('token', token)
+//   }
+//   return response
+// })
 
 export default request;

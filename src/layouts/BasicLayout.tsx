@@ -96,6 +96,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
    */
 
   useEffect(() => {
+    console.log("dispatch: ", dispatch)
     if (dispatch) {
       dispatch({
         type: 'user/fetchCurrent',
@@ -107,12 +108,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
    */
 
   const handleMenuCollapse = (payload: boolean): void => {
-    if (dispatch) {
-      dispatch({
-        type: 'global/changeLayoutCollapsed',
-        payload,
-      });
-    }
+    // if (dispatch) {
+    //   dispatch({
+    //     type: 'global/changeLayoutCollapsed',
+    //     payload,
+    //   });
+    // }
   }; // get children authority
 
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
